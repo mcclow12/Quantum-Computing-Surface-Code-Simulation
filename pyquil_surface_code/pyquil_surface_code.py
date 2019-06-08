@@ -16,7 +16,7 @@ random.seed(1)
 
 
 d = 3
-T = 50 
+T = 1
 p = 0.01
 true_grid_size = 2*d-1
 num_qubits = true_grid_size**2 
@@ -42,14 +42,14 @@ ro = pq.declare('ro', 'BIT', mem_size)
 
 #loop
 for t in range(T):
-    #pq += get_noisy_step(p, true_grid_size)
+    pq += get_noisy_step(p, true_grid_size)
     #pq += WAIT
     pq = pq + stabilize(z_qubit_pairs, x_qubit_pairs, true_grid_size, t)
     
     
     #pq += measure
 
-print(pq)
+
 #run
 #wf_sim.run_and_measure(pq, trials=1)
 
@@ -60,19 +60,19 @@ qc.run(pq)
 compiled = qc.compile(pq)
 #print('lol')
 #qc.run(compiled)
-qc.qam.load(compiled)
-qc.qam.run()
-#qc.qam.run(compiled)
+#qc.qam.load(compiled)
+#qc.qam.run()
+##qc.qam.run(compiled)
+##qc.qam.wait()
+##qc.qam.run(pq, trials=1)
 #qc.qam.wait()
-#qc.qam.run(pq, trials=1)
-qc.qam.wait()
-print(qc.qam.read_memory(region_name='ro'))
-#qc.run(compiled)
-#qc.qam.run(pq, trials=1)
+#print(qc.qam.read_memory(region_name='ro'))
+##qc.run(compiled)
+##qc.qam.run(pq, trials=1)
+##qc.qam.wait()
+#qc.qam.run()
 #qc.qam.wait()
-qc.qam.run()
-qc.qam.wait()
-print(qc.qam.read_memory(region_name='ro'))
+#print(qc.qam.read_memory(region_name='ro'))
 #compute bit flip errors
 #compute true errors
 

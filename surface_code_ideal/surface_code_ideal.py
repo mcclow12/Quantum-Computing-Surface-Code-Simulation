@@ -40,7 +40,7 @@ class surface_code_sim():
         self.data_edges += [((i,j), (i+2,j)) for i,j in self.G.nodes
                                 if i+2 <= self.grid_size]
         #print(self.data_edges)
-        #print(self.G.nodes)
+        print(self.G.nodes)
 
     def reset(self):
         self.G = nx.create_empty_copy(self.G)
@@ -147,15 +147,18 @@ class surface_code_sim():
             except:
                 break
 
-    def display_graph(self):
-        for e in self.G.edges:
+    def display_graph(self, correction_edges=None):
+#         for e in self.G.edges:
             #print(e[0], e[1])
-            plt.plot([e[0][0], e[1][0]], [e[0][1], e[1][1]])
-            plt.xlim(-2, self.grid_size + 1)
-            plt.ylim(-1, self.grid_size)
-        #if len(self.G.edges) == 0:
-            #print ('empty graph')
-        plt.show()
+#             plt.plot([e[0][0], e[1][0]], [e[0][1], e[1][1]])
+#             plt.xlim(-2, self.grid_size + 1)
+#             plt.ylim(-1, self.grid_size)
+        plt.figure()
+        pos = {n:n for n in self.G.nodes}
+        node_list = list(self.G.nodes)
+        node_color = ['g' if 0 <= n[0] < self.grid_size else 'b' for n in node_list]
+        nx.draw_networkx(self.G, pos=pos, with_labels = False, node_color=node_color)
+#         plt.show()
 
     def _is_logical_x(self, connected_component):
         left, right = False, False
@@ -189,11 +192,11 @@ class surface_code_sim():
         error_syndrome = self._get_error_syndrome()
         correction_matching = self._get_correction_matching(error_syndrome)
         if self.display_mode:
-            print('pre_corrections')
+            print('(1) pre_corrections')
             self.display_graph()
         self._apply_corrections(correction_matching)
         if self.display_mode:
-            print('post_corrections')
+            print('(2) post_corrections')
             self.display_graph()
         self.logical_error = self._check_logical_errors() 
 
@@ -206,58 +209,3 @@ class surface_code_sim():
             self.simulate_step()
             count += 1
         return count
-
-        
-if False:
-    d=5
-    p=0.15
-    count = 0
-    error_mode = 'depolarizing'
-    #display_mode = True
-    display_mode = True
-    s = surface_code_sim(d, p, error_mode, display_mode)
-    while not s.has_logical_error():
-        s.simulate_step()
-        count += 1
-        
-if False:
-    d=3
-    p=0.155
-    count = 0
-    error_mode = 'depolarizing'
-    #display_mode = True
-    num_trials = 1000
-    display_mode = False
-    for __ in range(num_trials):
-        s = surface_code_sim(d, p, error_mode, display_mode)
-        while not s.has_logical_error():
-            s.simulate_step()
-            count += 1
-    print(count/num_trials) 
-
-if False:
-    distances = [3, 5,7]
-    error_mode = 'depolarizing'
-    #display_mode = True
-    display_mode = False
-    num_trials = 1000
-    #num_trials = 1
-    plt.figure()
-    for d in distances:
-        ps = []
-        ys = []
-        for p in np.linspace(.13, 0.17, 4):
-            count = 0
-            for trial in range(num_trials):
-                s = surface_code_sim(d, p, error_mode, display_mode)
-                while not s.has_logical_error():
-                    s.simulate_step()
-                    count += 1
-            ps.append(p)
-            y = count/num_trials
-            ys.append(y)
-            print(p, y)
-        print(ps, ys)
-        plt.plot(ps, ys, label='{}'.format(d))
-    plt.legend()
-    plt.show()
