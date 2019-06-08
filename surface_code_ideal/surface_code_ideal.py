@@ -14,6 +14,8 @@ class surface_code_sim():
         
         if error_mode == 'depolarizing':
             self.flip_prob = 2*p/3
+        elif error_mode == 'uncorrelated':
+            self.flip_prob = p
         else:
             raise Exception('error_mode {} not supported'.format(mode))
         self.display_mode = display_mode
@@ -39,6 +41,11 @@ class surface_code_sim():
                                 if i+2 <= self.grid_size]
         #print(self.data_edges)
         #print(self.G.nodes)
+
+    def reset(self):
+        self.G = nx.create_empty_copy(self.G)
+        self.logical_error = False
+
     
     
     def _generate_bit_flips(self):
@@ -181,10 +188,6 @@ class surface_code_sim():
         self._generate_bit_flips()
         error_syndrome = self._get_error_syndrome()
         correction_matching = self._get_correction_matching(error_syndrome)
-        #print('n', self.G.nodes)
-        #print('e', self.G.edges)
-        #print('err', error_syndrome)
-        #print('cm', correction_matching)
         if self.display_mode:
             print('pre_corrections')
             self.display_graph()
@@ -192,18 +195,17 @@ class surface_code_sim():
         if self.display_mode:
             print('post_corrections')
             self.display_graph()
-        #print('n', self.G.nodes)
-        #print('e', self.G.edges)
-        #self._prune_cycles()
-        #print('n', self.G.nodes)
-        #print('e', self.G.edges)
-        #if self.display_mode:
-            #self.display_graph()
         self.logical_error = self._check_logical_errors() 
 
     def has_logical_error(self):
         return self.logical_error
 
+    def simulate(self):
+        count = 0
+        while not self.has_logical_error():
+            self.simulate_step()
+            count += 1
+        return count
 
         
 if False:
@@ -219,7 +221,7 @@ if False:
         count += 1
         
 if False:
-    d=7
+    d=3
     p=0.155
     count = 0
     error_mode = 'depolarizing'
@@ -233,7 +235,7 @@ if False:
             count += 1
     print(count/num_trials) 
 
-if True:
+if False:
     distances = [3, 5,7]
     error_mode = 'depolarizing'
     #display_mode = True
