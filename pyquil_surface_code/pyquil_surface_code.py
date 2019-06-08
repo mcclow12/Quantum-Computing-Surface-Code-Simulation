@@ -17,7 +17,7 @@ random.seed(1)
 
 d = 3
 T = 1
-p = 0.01
+p = 0.1
 true_grid_size = 2*d-1
 num_qubits = true_grid_size**2 
 data_qubit_pairs = get_data_qubit_pairs(true_grid_size)
@@ -27,14 +27,14 @@ measure_qubit_pairs = list(set([(i, j) for i in range(true_grid_size) for
 z_qubit_pairs = [(i,j) for i,j in measure_qubit_pairs if is_z(i,j)]
 x_qubit_pairs = [(i,j) for i,j in measure_qubit_pairs if is_x(i,j)]
 
-print(data_qubit_pairs, z_qubit_pairs, x_qubit_pairs)
+#print(data_qubit_pairs, z_qubit_pairs, x_qubit_pairs)
 
 #qc = QVMConnection()
 qc = get_qc('{}q-qvm'.format(num_qubits))
 
 pq = Program()
 mem_size = T*num_qubits + 1
-print(mem_size)
+#print(mem_size)
 ro = pq.declare('ro', 'BIT', mem_size)
 
 
@@ -57,7 +57,7 @@ for t in range(T):
 #qvm.run(pq, trials=1)
 
 qc.run(pq)
-compiled = qc.compile(pq)
+#compiled = qc.compile(pq)
 #print('lol')
 #qc.run(compiled)
 #qc.qam.load(compiled)

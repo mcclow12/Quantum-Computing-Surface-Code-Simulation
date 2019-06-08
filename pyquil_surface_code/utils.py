@@ -51,35 +51,35 @@ def inbounds(pair, true_grid_size):
     i, j = pair
     return 0 <= i < true_grid_size and 0 <= j < true_grid_size
 
-def z_abcd_circuit(qubit, a, b, c, d, true_grid_size, reg):
-    r = Program()
-    r += I(qubit)
-    if inbounds(a, true_grid_size):
-        r += CNOT(pair_to_single(*a, true_grid_size), qubit)
-    if inbounds(b, true_grid_size):
-        r += CNOT(pair_to_single(*b, true_grid_size), qubit)
-    if inbounds(c, true_grid_size):
-        r += CNOT(pair_to_single(*c, true_grid_size), qubit)
-    if inbounds(d, true_grid_size):
-        r += CNOT(pair_to_single(*d, true_grid_size), qubit)
-   # r += MEASURE(qubit, reg)
-    r += I(qubit)
-    return r
-
-def x_abcd_circuit(qubit, a, b, c, d, true_grid_size, reg):
-    r = Program()
-    r += H(qubit)
-    if inbounds(a, true_grid_size):
-        r += CNOT(qubit, pair_to_single(*a, true_grid_size))
-    if inbounds(b, true_grid_size):
-        r += CNOT(qubit, pair_to_single(*b, true_grid_size))
-    if inbounds(c, true_grid_size):
-        r += CNOT(qubit, pair_to_single(*c, true_grid_size))
-    if inbounds(d, true_grid_size):
-        r += CNOT(qubit, pair_to_single(*d, true_grid_size))
-    r += H(qubit)
-   # r += MEASURE(qubit, reg)
-    return r
+#def z_abcd_circuit(qubit, a, b, c, d, true_grid_size, reg):
+#    r = Program()
+#    r += I(qubit)
+#    if inbounds(a, true_grid_size):
+#        r += CNOT(pair_to_single(*a, true_grid_size), qubit)
+#    if inbounds(b, true_grid_size):
+#        r += CNOT(pair_to_single(*b, true_grid_size), qubit)
+#    if inbounds(c, true_grid_size):
+#        r += CNOT(pair_to_single(*c, true_grid_size), qubit)
+#    if inbounds(d, true_grid_size):
+#        r += CNOT(pair_to_single(*d, true_grid_size), qubit)
+#   # r += MEASURE(qubit, reg)
+#    r += I(qubit)
+#    return r
+#
+#def x_abcd_circuit(qubit, a, b, c, d, true_grid_size, reg):
+#    r = Program()
+#    r += H(qubit)
+#    if inbounds(a, true_grid_size):
+#        r += CNOT(qubit, pair_to_single(*a, true_grid_size))
+#    if inbounds(b, true_grid_size):
+#        r += CNOT(qubit, pair_to_single(*b, true_grid_size))
+#    if inbounds(c, true_grid_size):
+#        r += CNOT(qubit, pair_to_single(*c, true_grid_size))
+#    if inbounds(d, true_grid_size):
+#        r += CNOT(qubit, pair_to_single(*d, true_grid_size))
+#    r += H(qubit)
+#   # r += MEASURE(qubit, reg)
+#    return r
 
 #handle ground later
 def step_1(z_qubit_pairs, x_qubit_pairs, true_grid_size, t):    
@@ -92,14 +92,14 @@ def step_1(z_qubit_pairs, x_qubit_pairs, true_grid_size, t):
         reg = triple_to_single(i, j, t, true_grid_size)
         qubit = pair_to_single(i, j, true_grid_size)
 
-        r += I(qubit)
+        r += RESET(qubit)
     return r
 
 def step_2(z_qubit_pairs, x_qubit_pairs, true_grid_size, t):    
     r = Program()
     for i,j in z_qubit_pairs:
         qubit = pair_to_single(i, j, true_grid_size)
-        r += I(qubit)
+        r += RESET(qubit)
 
     for i,j in x_qubit_pairs:
         reg = triple_to_single(i, j, t, true_grid_size)
