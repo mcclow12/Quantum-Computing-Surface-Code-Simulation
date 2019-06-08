@@ -40,7 +40,7 @@ class surface_code_sim():
         self.data_edges += [((i,j), (i+2,j)) for i,j in self.G.nodes
                                 if i+2 <= self.grid_size]
         #print(self.data_edges)
-        print(self.G.nodes)
+        #print(self.G.nodes)
 
     def reset(self):
         self.G = nx.create_empty_copy(self.G)
