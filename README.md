@@ -8,7 +8,7 @@ The directory surface_code_ideal contains an implementation using NetworkX. The 
 
 The directory pyquil_surface_code contains an example implementation of the surface code error extraction in the quantum programming framework PyQuil. No threshold is obtained from this implementation, so it is less clear that the PyQuil code works -- it is provided moreso for illustrating the capabilities of the PyQuil programming language capabilities than for computation.
 
-For full details, see writeup.pdf.
+For full details, see writeup.pdf, which contains an in-depth explanation of the surface code as well as further discussion of the simulation.
 
 
 
