@@ -1,4 +1,4 @@
-# surface_code_simulation
+# Surface-Code-Simulation
 
 The surface code is one of the leading ideas for quantum memory. This repository contains the author's final project on the surface code for CS269Q, a class on quantum computing at Stanford University.
 
