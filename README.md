@@ -1,6 +1,6 @@
 # Surface-Code-Simulation
 
-The surface code is one of the leading ideas for quantum memory. This repository contains the author's final project on the surface code for CS269Q, a class on quantum computing at Stanford University.
+The surface code is one of the leading ideas for quantum memory. This repository contains the author's final project on the surface code for CS269Q, a class on quantum computing at Stanford University. Received a near-perfect score from the instructor.
 
 We implement a simulation of the surface code under perfect error syndrome extraction. The fault-tolerant threshold p=0.155 obtained by the simulations by Wang, Fowler et al. (https://arxiv.org/abs/0905.0531) is reproduced. 
 
